@@ -29,7 +29,7 @@ fun QuizAppBar(
         ),
         title = {
             Text(
-                text = "quizCategory",
+                text = quizCategory,
                 color = colorResource(id = R.color.blue_grey),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

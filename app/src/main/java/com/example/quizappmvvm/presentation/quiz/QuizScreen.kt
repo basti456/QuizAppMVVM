@@ -13,15 +13,39 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import com.example.quizappmvvm.presentation.common.QuizAppBar
 import com.example.quizappmvvm.presentation.util.Dimens
 import com.example.quizappmvvm.R
+import com.example.quizappmvvm.presentation.util.Constants
 
 @Composable
-fun QuizScreen(noOfQuiz: Int, quizCategory: String, quizDifficulty: String) {
+fun QuizScreen(
+    noOfQuiz: Int,
+    quizCategory: String,
+    quizDifficulty: String,
+    quizType: String,
+    event: (QuizScreenEvents) -> Unit,
+    state: QuizScreenState
+) {
+
+    LaunchedEffect(key1 = Unit) {
+        event(
+            QuizScreenEvents.GetQuizzes(
+                numOfQuizzes = noOfQuiz,
+                category = Constants.categoriesMap[quizCategory]!!,
+                difficulty = quizDifficulty.lowercase(),
+                type = if (quizType == "Multiple Choice") {
+                    "multiple"
+                } else {
+                    "boolean"
+                }
+            )
+        )
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         QuizAppBar(quizCategory = quizCategory) {

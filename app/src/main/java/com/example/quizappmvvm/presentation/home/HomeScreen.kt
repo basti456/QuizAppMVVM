@@ -13,16 +13,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.RoundRect
 import androidx.navigation.NavController
 import com.example.quizappmvvm.presentation.common.AppDropdownMenu
 import com.example.quizappmvvm.presentation.common.ButtonBox
 import com.example.quizappmvvm.presentation.home.component.HomeHeader
+import com.example.quizappmvvm.presentation.nav_graph.Routes
 import com.example.quizappmvvm.presentation.util.Constants
 import com.example.quizappmvvm.presentation.util.Dimens.MediumPadding
 import com.example.quizappmvvm.presentation.util.Dimens.MediumSpacerHeight
 
 @Composable
-fun HomeScreen(state: HomeScreenState, event: (HomeScreenEvents) -> Unit,navController: NavController) {
+fun HomeScreen(
+    state: HomeScreenState,
+    event: (HomeScreenEvents) -> Unit,
+    navController: NavController
+) {
 
     Column(
         modifier = Modifier
@@ -61,8 +67,15 @@ fun HomeScreen(state: HomeScreenState, event: (HomeScreenEvents) -> Unit,navCont
             onDropdownClick = { event(HomeScreenEvents.SetQuizType(it)) })
 
         Spacer(modifier = Modifier.height(MediumSpacerHeight))
-        ButtonBox(text = "Generate Quiz", padding = MediumPadding){
-            Log.d("quiz details", state.toString())
+        ButtonBox(text = "Generate Quiz", padding = MediumPadding) {
+            navController.navigate(
+                Routes.QuizScreen.passQuizParams(
+                    state.noOfQuiz,
+                    state.category,
+                    state.difficulty,
+                    state.type
+                )
+            )
         }
     }
 }

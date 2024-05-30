@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import com.example.quizappmvvm.presentation.home.HomeScreen
 import com.example.quizappmvvm.presentation.home.HomeScreenViewModel
 import com.example.quizappmvvm.presentation.quiz.QuizScreen
+import com.example.quizappmvvm.presentation.quiz.QuizViewModel
 
 @Composable
 fun SetNavGraph() {
@@ -19,7 +20,7 @@ fun SetNavGraph() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.HomeScreen.route) {
         composable(route = Routes.HomeScreen.route) {
-            val viewModel: HomeScreenViewModel = hiltViewModel()
+            val viewModel: HomeScreenViewModel = hiltViewModel<HomeScreenViewModel>()
             val state by viewModel.homeState.collectAsState()
             HomeScreen(
                 state = state,
@@ -36,14 +37,19 @@ fun SetNavGraph() {
                 navArgument(ARG_KEY_QUIZ_TYPE) { type = NavType.StringType }
             )
         ) {
-            val noOfQuizzes = it.arguments?.getInt(ARG_KEY_QUIZ_TYPE)
+            val noOfQuizzes = it.arguments?.getInt(ARG_KEY_QUIZ_NUMBER)
             val quizCategory = it.arguments?.getString(ARG_KEY_QUIZ_CATEGORY)
             val quizDifficulty = it.arguments?.getString(ARG_KEY_QUIZ_DIFFICULTY)
             val quizType = it.arguments?.getString(ARG_KEY_QUIZ_TYPE)
+            val viewModel:QuizViewModel= hiltViewModel<QuizViewModel>()
+            val state by viewModel.quizList.collectAsState()
             QuizScreen(
                 noOfQuiz = noOfQuizzes!!,
                 quizCategory = quizCategory!!,
-                quizDifficulty = quizDifficulty!!
+                quizDifficulty = quizDifficulty!!,
+                quizType = quizType!!,
+                event = viewModel::onEvent,
+                state=state
             )
         }
     }
