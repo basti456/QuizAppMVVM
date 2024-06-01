@@ -15,10 +15,17 @@ import androidx.compose.ui.Modifier
 import com.example.quizappmvvm.R
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.example.quizappmvvm.presentation.quiz.QuizState
 import com.example.quizappmvvm.presentation.util.Dimens
 
 @Composable
-fun QuizInterface(onOptionSelected: (Int) -> Unit, qNumber: Int, modifier: Modifier = Modifier) {
+fun QuizInterface(
+    onOptionSelected: (Int) -> Unit,
+    qNumber: Int,
+    modifier: Modifier = Modifier,
+    quizState: QuizState
+) {
+    val question = quizState.quiz!!.question.replace("&quot;", "\"").replace("&#039;", "\'")
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Column(modifier = Modifier.wrapContentHeight()) {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -29,7 +36,7 @@ fun QuizInterface(onOptionSelected: (Int) -> Unit, qNumber: Int, modifier: Modif
                     fontSize = Dimens.SmallTextSize
                 )
                 Text(
-                    text = "Which insurance policy do you want", modifier = Modifier.weight(9f),
+                    text = question, modifier = Modifier.weight(9f),
                     colorResource(id = R.color.blue_grey), fontSize = Dimens.SmallTextSize
                 )
             }
@@ -39,10 +46,10 @@ fun QuizInterface(onOptionSelected: (Int) -> Unit, qNumber: Int, modifier: Modif
             Column(modifier = Modifier.padding(horizontal = 15.dp)) {
 
                 val options = listOf(
-                    "A" to "Bajaj",
-                    "B" to "Metlife",
-                    "C" to "Canary",
-                    "D" to "Bharat"
+                    "A" to quizState.shuffledOptions[0].replace("&quot;", "\"").replace("&#039;", "\'"),
+                    "B" to quizState.shuffledOptions[1].replace("&quot;", "\"").replace("&#039;", "\'"),
+                    "C" to quizState.shuffledOptions[2].replace("&quot;", "\"").replace("&#039;", "\'"),
+                    "D" to quizState.shuffledOptions[3].replace("&quot;", "\"").replace("&#039;", "\'")
                 )
                 options.forEachIndexed { index, (optionNumber, optionText) ->
                     if (optionText.isNotEmpty()) {
