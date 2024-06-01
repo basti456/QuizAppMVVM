@@ -1,6 +1,7 @@
 package com.example.quizappmvvm.presentation.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,27 +14,46 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import com.example.quizappmvvm.R
 import com.example.quizappmvvm.presentation.util.Dimens
 
 @Composable
-fun ButtonBox(text: String, padding: Dp, onButtonClick: () -> Unit) {
+fun ButtonBox(
+    modifier: Modifier = Modifier,
+    text: String,
+    padding: Dp,
+    borderColor: Color = colorResource(id = R.color.blue_grey),
+    containerColor: Color = colorResource(id = R.color.blue_grey),
+    textColor: Color = colorResource(id = R.color.blue_grey),
+    fontSize: TextUnit = Dimens.MediumTextSize,
+    fraction: Float = 1f,
+    onButtonClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(padding)
+            .border(
+                Dimens.SmallBorderWidth,
+                borderColor,
+                RoundedCornerShape(Dimens.LargeCornerRadius)
+            )
             .clickable { onButtonClick() }
-            .fillMaxWidth()
+            .fillMaxWidth(fraction)
             .height(Dimens.MediumBoxHeight)
             .clip(RoundedCornerShape(Dimens.LargeCornerRadius))
-            .background(colorResource(id = R.color.blue_grey)), contentAlignment = Alignment.Center
+            .background(containerColor),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
-            fontSize = Dimens.MediumTextSize,
-            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold)
+            fontSize = fontSize,
+            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+            color = textColor
         )
     }
 }

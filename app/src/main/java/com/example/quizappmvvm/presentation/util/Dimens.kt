@@ -5,10 +5,12 @@ import androidx.compose.ui.unit.sp
 
 object Dimens {
 
+    val SmallTextSize = 16.sp
     val MediumTextSize = 26.sp
     val LargeTextSize = 40.sp
 
 
+    val SmallBorderWidth=3.dp
     val HomeTopBoxHeight = 150.dp
 
     val VerySmallPadding = 10.dp

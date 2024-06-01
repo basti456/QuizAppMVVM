@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -20,6 +21,8 @@ import androidx.compose.ui.res.colorResource
 import com.example.quizappmvvm.presentation.common.QuizAppBar
 import com.example.quizappmvvm.presentation.util.Dimens
 import com.example.quizappmvvm.R
+import com.example.quizappmvvm.presentation.common.ButtonBox
+import com.example.quizappmvvm.presentation.quiz.component.QuizInterface
 import com.example.quizappmvvm.presentation.util.Constants
 
 @Composable
@@ -80,6 +83,35 @@ fun QuizScreen(
             )
 
             Spacer(modifier = Modifier.height(Dimens.LargeSpacerHeight))
+
+            QuizInterface(onOptionSelected = {}, qNumber = 1, modifier = Modifier.weight(1f))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = Dimens.MediumPadding)
+                    .navigationBarsPadding()
+            ) {
+                ButtonBox(
+                    text = "Previous",
+                    padding = Dimens.SmallPadding,
+                    fraction = 0.43f,
+                    fontSize = Dimens.SmallTextSize
+                ) {
+
+                }
+                ButtonBox(
+                    text = "Next",
+                    padding = Dimens.SmallPadding,
+                    borderColor = colorResource(id = R.color.orange),
+                    containerColor = colorResource(id = R.color.dark_slate_blue),
+                    fraction = 1f,
+                    textColor = colorResource(id = R.color.white),
+                    fontSize = Dimens.SmallTextSize
+                ) {
+
+                }
+            }
         }
     }
 }
