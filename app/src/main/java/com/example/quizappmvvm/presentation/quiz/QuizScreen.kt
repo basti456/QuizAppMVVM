@@ -1,5 +1,6 @@
 package com.example.quizappmvvm.presentation.quiz
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -105,7 +106,9 @@ fun QuizScreen(
                 }
                 HorizontalPager(state = pagerState) { index ->
                     QuizInterface(
-                        onOptionSelected = {},
+                        onOptionSelected = { selectedIndex ->
+                            event(QuizScreenEvents.SetOptionSelected(index, selectedIndex))
+                        },
                         qNumber = index + 1,
                         modifier = Modifier.weight(1f),
                         quizState = state.quizState[index]
@@ -152,7 +155,11 @@ fun QuizScreen(
                             text = buttonText[1],
                             padding = Dimens.SmallPadding,
                             borderColor = colorResource(id = R.color.orange),
-                            containerColor = colorResource(id = R.color.dark_slate_blue),
+                            containerColor = if (pagerState.currentPage == state.quizState.size - 1) {
+                                colorResource(id = R.color.orange)
+                            } else {
+                                colorResource(id = R.color.dark_slate_blue)
+                            },
                             fraction = 1f,
                             textColor = colorResource(id = R.color.white),
                             fontSize = Dimens.SmallTextSize

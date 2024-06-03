@@ -1,6 +1,5 @@
 package com.example.quizappmvvm.presentation.quiz
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quizappmvvm.common.Resource
@@ -27,7 +26,23 @@ class QuizViewModel @Inject constructor(private val getQuizzesUseCase: GetQuizze
                     event.type
                 )
             }
+
+            is QuizScreenEvents.SetOptionSelected -> {
+                updateQuizStateList(event.quizStateIndex, event.selectedOption)
+            }
         }
+    }
+
+    private fun updateQuizStateList(quizStateIndex: Int, selectedOption: Int) {
+        val updatedQuizStateList = mutableListOf<QuizState>()
+        _quizList.value.quizState.forEachIndexed { index, quizState ->
+            updatedQuizStateList.add(
+                if (quizStateIndex == index) {
+                    quizState.copy(selectedOption = selectedOption)
+                } else quizState
+            )
+        }
+        _quizList.value = _quizList.value.copy(quizState = updatedQuizStateList)
     }
 
     private fun getListOfQuizState(data: List<Quiz>?): List<QuizState> {

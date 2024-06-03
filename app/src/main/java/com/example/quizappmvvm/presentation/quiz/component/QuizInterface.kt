@@ -17,6 +17,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.quizappmvvm.presentation.quiz.QuizState
 import com.example.quizappmvvm.presentation.util.Dimens
+import org.jsoup.Jsoup
 
 @Composable
 fun QuizInterface(
@@ -25,7 +26,7 @@ fun QuizInterface(
     modifier: Modifier = Modifier,
     quizState: QuizState
 ) {
-    val question = quizState.quiz!!.question.replace("&quot;", "\"").replace("&#039;", "\'")
+    val question = Jsoup.parse(quizState.quiz!!.question).text()
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Column(modifier = Modifier.wrapContentHeight()) {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -46,18 +47,18 @@ fun QuizInterface(
             Column(modifier = Modifier.padding(horizontal = 15.dp)) {
 
                 val options = listOf(
-                    "A" to quizState.shuffledOptions[0].replace("&quot;", "\"").replace("&#039;", "\'"),
-                    "B" to quizState.shuffledOptions[1].replace("&quot;", "\"").replace("&#039;", "\'"),
-                    "C" to quizState.shuffledOptions[2].replace("&quot;", "\"").replace("&#039;", "\'"),
-                    "D" to quizState.shuffledOptions[3].replace("&quot;", "\"").replace("&#039;", "\'")
+                    "A" to Jsoup.parse(quizState.shuffledOptions[0]).text(),
+                    "B" to Jsoup.parse(quizState.shuffledOptions[1]).text(),
+                    "C" to Jsoup.parse(quizState.shuffledOptions[2]).text(),
+                    "D" to Jsoup.parse(quizState.shuffledOptions[3]).text()
                 )
                 options.forEachIndexed { index, (optionNumber, optionText) ->
                     if (optionText.isNotEmpty()) {
                         QuizOption(
                             optionNumber = optionNumber,
                             options = optionText,
-                            selected = false,
                             onOptionsClick = { onOptionSelected(index) },
+                            selected = quizState.selectedOption == index,
                             onUnselectOption = {
                                 onOptionSelected(-1)
                             })
