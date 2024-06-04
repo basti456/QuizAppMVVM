@@ -1,7 +1,7 @@
 package com.example.quizappmvvm.presentation.quiz
 
-import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,9 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.navigation.NavController
 import com.example.quizappmvvm.R
 import com.example.quizappmvvm.presentation.common.ButtonBox
 import com.example.quizappmvvm.presentation.common.QuizAppBar
+import com.example.quizappmvvm.presentation.nav_graph.Routes
 import com.example.quizappmvvm.presentation.quiz.component.QuizInterface
 import com.example.quizappmvvm.presentation.quiz.component.ShimmerEffectQuizInterface
 import com.example.quizappmvvm.presentation.util.Constants
@@ -45,8 +47,17 @@ fun QuizScreen(
     quizDifficulty: String,
     quizType: String,
     event: (QuizScreenEvents) -> Unit,
-    state: QuizScreenState
+    state: QuizScreenState,
+    navController: NavController
 ) {
+
+    BackHandler {
+        navController.navigate(Routes.HomeScreen.route) {
+            popUpTo(Routes.HomeScreen.route) {
+                inclusive = true
+            }
+        }
+    }
 
     val context = LocalContext.current
     LaunchedEffect(key1 = Unit) {
@@ -66,7 +77,11 @@ fun QuizScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         QuizAppBar(quizCategory = quizCategory) {
-
+            navController.navigate(Routes.HomeScreen.route) {
+                popUpTo(Routes.HomeScreen.route) {
+                    inclusive = true
+                }
+            }
         }
 
         Column(
@@ -165,7 +180,12 @@ fun QuizScreen(
                             fontSize = Dimens.SmallTextSize
                         ) {
                             if (pagerState.currentPage == state.quizState.size - 1) {
-                                //navigate to score screen
+                                navController.navigate(
+                                    route = Routes.ScoreScreen.passNoOfQuestionsAndCorrectAns(
+                                        questions = state.quizState.size,
+                                        state.score
+                                    )
+                                )
                             } else {
                                 scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
                             }

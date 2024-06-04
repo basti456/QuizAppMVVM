@@ -77,7 +77,7 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
 
     //lottie animation
-    implementation ("com.airbnb.android:lottie:6.4.0")
+    implementation ("com.airbnb.android:lottie-compose:6.4.1")
     //Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")

@@ -8,6 +8,7 @@ import com.example.quizappmvvm.domain.usecases.GetQuizzesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,6 +44,21 @@ class QuizViewModel @Inject constructor(private val getQuizzesUseCase: GetQuizze
             )
         }
         _quizList.value = _quizList.value.copy(quizState = updatedQuizStateList)
+        if(selectedOption !=-1){
+            updateScore(_quizList.value.quizState[quizStateIndex])
+        }
+
+    }
+
+    private fun updateScore(quizState: QuizState) {
+        val correctAnswer = Jsoup.parse(quizState.quiz?.correct_answer.toString()).text()
+        val selectedAnswer=quizState.selectedOption?.let {
+            Jsoup.parse(quizState.shuffledOptions[it]).text()
+        }
+        if(correctAnswer == selectedAnswer){
+            val previousScore=_quizList.value.score
+            _quizList.value=_quizList.value.copy(score = previousScore+1)
+        }
     }
 
     private fun getListOfQuizState(data: List<Quiz>?): List<QuizState> {
