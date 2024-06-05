@@ -31,6 +31,7 @@ class QuizViewModel @Inject constructor(private val getQuizzesUseCase: GetQuizze
             is QuizScreenEvents.SetOptionSelected -> {
                 updateQuizStateList(event.quizStateIndex, event.selectedOption)
             }
+
         }
     }
 
@@ -92,6 +93,7 @@ class QuizViewModel @Inject constructor(private val getQuizzesUseCase: GetQuizze
                         _quizList.value =
                             QuizScreenState(isLoading = false, error = resource.message.toString())
                     }
+
                 }
             }
         }

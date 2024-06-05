@@ -73,8 +73,8 @@ fun AppDropdownMenu(
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedTextColor = colorResource(id = R.color.dark_blue_grey),
-                    unfocusedTextColor = colorResource(id = R.color.dark_blue_grey),
+                    focusedTextColor = colorResource(id = R.color.white),
+                    unfocusedTextColor = colorResource(id = R.color.white),
                     unfocusedTrailingIconColor = colorResource(id = R.color.orange),
                     focusedTrailingIconColor = colorResource(id = R.color.orange),
                     focusedBorderColor = colorResource(id = R.color.dark_slate_blue),
@@ -92,7 +92,7 @@ fun AppDropdownMenu(
                     DropdownMenuItem(text = {
                         Text(
                             text = text,
-                            color = colorResource(id = R.color.blue_grey)
+                            color = colorResource(id = R.color.white)
                         )
                     }, onClick = {
                         onDropdownClick(menuList[index])

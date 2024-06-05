@@ -45,13 +45,16 @@ fun QuizInterface(
             Spacer(modifier = Modifier.height(Dimens.LargeSpacerHeight))
 
             Column(modifier = Modifier.padding(horizontal = 15.dp)) {
-
-                val options = listOf(
-                    "A" to Jsoup.parse(quizState.shuffledOptions[0]).text(),
-                    "B" to Jsoup.parse(quizState.shuffledOptions[1]).text(),
-                    "C" to Jsoup.parse(quizState.shuffledOptions[2]).text(),
-                    "D" to Jsoup.parse(quizState.shuffledOptions[3]).text()
-                )
+                val options = if (quizState.quiz.type == "boolean") {
+                    listOf("A" to quizState.shuffledOptions[0], "B" to quizState.shuffledOptions[1])
+                } else {
+                    listOf(
+                        "A" to Jsoup.parse(quizState.shuffledOptions[0]).text(),
+                        "B" to Jsoup.parse(quizState.shuffledOptions[1]).text(),
+                        "C" to Jsoup.parse(quizState.shuffledOptions[2]).text(),
+                        "D" to Jsoup.parse(quizState.shuffledOptions[3]).text()
+                    )
+                }
                 options.forEachIndexed { index, (optionNumber, optionText) ->
                     if (optionText.isNotEmpty()) {
                         QuizOption(

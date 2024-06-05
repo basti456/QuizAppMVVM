@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,11 +26,18 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.quizappmvvm.R
 import com.example.quizappmvvm.presentation.common.ButtonBox
 import com.example.quizappmvvm.presentation.common.QuizAppBar
@@ -197,8 +206,33 @@ fun QuizScreen(
             } else if (state.error != "") {
                 Toast.makeText(context, "Something went wrong ${state.error}", Toast.LENGTH_SHORT)
                     .show()
+            } else {
+                val composition by rememberLottieComposition(
+                    spec = LottieCompositionSpec.RawRes(
+                        resId = R.raw.no_quiz_found
+                    )
+                )
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    LottieAnimation(
+                        modifier = Modifier
+                            .size(500.dp),
+                        composition = composition,
+                        iterations = 100
+                    )
+                    Spacer(modifier = Modifier.height(Dimens.SmallSpacerHeight))
+                    Text(
+                        text = "No quiz found",
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = Dimens.MediumTextSize,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
-
         }
     }
 }
